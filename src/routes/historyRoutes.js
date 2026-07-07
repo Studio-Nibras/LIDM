@@ -1,11 +1,13 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
-const historyController = require('../controllers/historyController');
 
-// GET untuk menampilkan dashboard riwayat belajar dan kalender
-router.get('/', historyController.getHistoryDashboard);
+const historyController = require("../controllers/historyController");
 
-// aktivitas kalender
-router.post('/log-activity', historyController.logActivity);
+// const authMiddleware = require("../middlewares/authMiddleware");
+
+router.get("/", historyController.getHistory);
+
+router.post("/", historyController.createHistory);
 
 module.exports = router;

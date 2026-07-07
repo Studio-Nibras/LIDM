@@ -13,6 +13,7 @@ const profileRoutes = require("./src/routes/profileRoutes");
 const quizRoutes = require("./src/routes/quizRoutes");
 const gestureRoutes = require("./src/routes/gestureRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
+const agendaRoutes = require("./src/routes/agendaRoutes");
 
 // middleware global
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/workspace/gesture", gestureRoutes);
 app.use("/api/workspace", workspaceRoutes);
+app.use("/api/agenda", agendaRoutes);
 
 // route testing
 app.get("/", (req, res) => {
