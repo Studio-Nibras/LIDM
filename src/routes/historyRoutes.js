@@ -1,13 +1,11 @@
 const express = require("express");
-
 const router = express.Router();
 
 const historyController = require("../controllers/historyController");
+const authenticateUser = require("../middleware/authenticateUser");
 
-// const authMiddleware = require("../middlewares/authMiddleware");
+router.get("/", authenticateUser, historyController.getHistory);
 
-router.get("/", historyController.getHistory);
-
-router.post("/", historyController.createHistory);
+router.post("/", authenticateUser, historyController.createHistory);
 
 module.exports = router;

@@ -5,13 +5,15 @@ const supabase = require("../config/supabase");
 // ===============================
 exports.getHistory = async (req, res) => {
   try {
-    const { user_id } = req.query;
+    const user_id = req.user.id;
 
     const { data, error } = await supabase
       .from("study_history")
       .select("*")
       .eq("user_id", user_id)
-      .order("completed_at", { ascending: false });
+      .order("completed_at", {
+        ascending: false,
+      });
 
     if (error) throw error;
 
@@ -34,7 +36,7 @@ exports.getHistory = async (req, res) => {
 // ===============================
 exports.createHistory = async (req, res) => {
   try {
-    const { user_id } = req.body;
+    const user_id = req.user.id;
 
     const { workspace_id, title, score, total_question, percentage } = req.body;
 
@@ -42,7 +44,7 @@ exports.createHistory = async (req, res) => {
       .from("study_history")
       .insert([
         {
-          user_id: "06f85e25-833d-4d00-9778-8dd2ce38d238",
+          user_id,
           workspace_id,
           title,
           score,

@@ -1,11 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const authController = require('../controllers/authController');
 
-// registrasi: POST http://localhost:3000/api/auth/register
-router.post('/register', authController.registerUser);
+const authenticateUser = require("../middleware/authenticateUser");
 
-// login: POST http://localhost:3000/api/auth/login
-router.post('/login', authController.loginUser);
+router.get("/me", authenticateUser, (req, res) => {
+  res.json({
+    success: true,
+    user: req.user,
+  });
+});
 
 module.exports = router;

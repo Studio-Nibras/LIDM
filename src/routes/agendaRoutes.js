@@ -1,11 +1,15 @@
 const express = require("express");
-
 const router = express.Router();
 
-const { createAgenda, getAgenda } = require("../controllers/agendaController");
+const agendaController = require("../controllers/agendaController");
+const authenticateUser = require("../middleware/authenticateUser");
 
-router.post("/", createAgenda);
+router.use(authenticateUser);
 
-router.get("/", getAgenda);
+router.get("/", agendaController.getAgenda);
+
+router.post("/", agendaController.createAgenda);
+
+router.delete("/:id", agendaController.deleteAgenda);
 
 module.exports = router;

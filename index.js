@@ -5,6 +5,8 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const supabase = require("./src/config/supabase");
 
+const authenticateUser = require("./src/middleware/authenticateUser");
+
 // import rute
 const authRoutes = require("./src/routes/authRoutes");
 const lectureRoutes = require("./src/routes/lectureRoutes");
