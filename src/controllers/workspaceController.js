@@ -312,9 +312,9 @@ exports.updateMindMapManual = async (req, res) => {
 
 exports.submitQuiz = async (req, res) => {
   try {
-    const { quizId, answers, userId } = req.body;
+    const userId = req.user.id;
+    const { quizId, answers } = req.body;
 
-    // Pastikan mencari di tabel 'quisis'
     const { data: quizData, error: quizError } = await supabase
       .from("quisis")
       .select("questions, materials")
@@ -322,19 +322,21 @@ exports.submitQuiz = async (req, res) => {
       .single();
 
     if (quizError || !quizData) {
-      return res.status(404).json({ message: "Data kuis tidak ditemukan." });
+      return res.status(404).json({
+        message: "Data kuis tidak ditemukan.",
+      });
     }
 
-    // Hitung skor sederhana
     let score = 0;
+
     quizData.questions.forEach((q, index) => {
       const userAnswer = answers.find((a) => a.questionIndex === index);
+
       if (userAnswer && userAnswer.selectedOption === q.correctAnswer) {
         score += 100 / quizData.questions.length;
       }
     });
 
-    // Simpan ke quiz_results
     await supabase.from("quiz_results").insert([
       {
         user_id: userId,
@@ -343,12 +345,14 @@ exports.submitQuiz = async (req, res) => {
       },
     ]);
 
-    res
-      .status(200)
-      .json({ message: "Kuis selesai!", score: Math.round(score) });
+    res.status(200).json({
+      message: "Kuis selesai!",
+      score: Math.round(score),
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Gagal submit kuis.", error: error.message });
+    res.status(500).json({
+      message: "Gagal submit kuis.",
+      error: error.message,
+    });
   }
 };

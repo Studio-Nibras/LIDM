@@ -46,12 +46,18 @@ exports.saveTranscript = async (req, res) => {
       return res.status(400).json({ message: "Judul materi harus diisi!" });
     }
 
+    if (!userId) {
+      return res.status(450).json({
+        message: "User ID is required",
+      });
+    }
+
     const { data: newLecture, error } = await supabase
       .from("Workspace")
       .insert([
         {
           Title: title,
-          "User Id": "00000000-0000-0000-0000-000000000000",
+          "User Id": userId,
         },
       ])
       .select()

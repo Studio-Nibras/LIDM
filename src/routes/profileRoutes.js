@@ -1,10 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const profileController = require('../controllers/profileController');
+const express = require("express");
 
-router.get('/', profileController.getUserProfile);
-router.put('/settings', profileController.updateAccountSettings);
-router.put('/security', profileController.updateSecuritySettings);
-router.get('/faq', profileController.getHelpCenterFAQs);
+const router = express.Router();
+
+const { getProfile } = require("../controllers/profileController");
+
+router.get("/:userId", getProfile);
 
 module.exports = router;
