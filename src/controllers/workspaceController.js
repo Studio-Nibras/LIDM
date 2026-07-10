@@ -15,6 +15,33 @@ const simpleGestureLibrary = [
   { gestureId: "gst_04", name: "BANTU" },
 ];
 
+const { extractFile } = require("../services/fileExtractorService");
+
+exports.uploadFile = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Tidak ada file.",
+      });
+    }
+
+    const plainText = await extractFile(req.file);
+
+    return res.status(200).json({
+      success: true,
+      plainText,
+    });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 exports.translateGesture = async (req, res) => {
   try {
     const { detectedPatternId } = req.body;

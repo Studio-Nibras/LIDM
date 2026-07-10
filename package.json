@@ -19,9 +19,16 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "fast-xml-parser": "^5.9.3",
     "google-auth-library": "^10.9.0",
     "jsonwebtoken": "^9.0.3",
-    "multer": "^2.2.0"
+    "jszip": "^3.10.1",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "officeparser": "^7.2.3",
+    "pdf-parse": "^1.1.1",
+    "sharp": "^0.35.3",
+    "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
