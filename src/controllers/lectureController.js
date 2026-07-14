@@ -3,6 +3,7 @@ const supabase = require("../config/supabase");
 // bikin note
 exports.createNote = async (req, res) => {
   try {
+    console.log("BODY:", req.body);
     // ambil title dan userId dari request body
     const { title, plainText, userId } = req.body;
 
