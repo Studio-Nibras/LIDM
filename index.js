@@ -43,6 +43,9 @@ app.use(
   }),
 );
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // rute API
 app.use("/api/auth", authRoutes);
 app.use("/api/lectures", lectureRoutes);
