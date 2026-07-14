@@ -164,12 +164,6 @@ Format:
       .replace(/```/g, "")
       .trim();
 
-    console.log("========== GEMINI ==========");
-    console.log(text);
-    console.log("============================");
-
-    console.log("STEP 1");
-
     let mindMapJson;
 
     try {
@@ -177,8 +171,6 @@ Format:
     } catch (err) {
       throw new Error("AI menghasilkan JSON yang tidak valid.");
     }
-
-    console.log("STEP 2");
 
     // Simpan ke Supabase
     const { data, error } = await supabase
@@ -192,11 +184,7 @@ Format:
       .select()
       .single();
 
-    console.log("STEP 3");
-
     if (error) throw error;
-
-    console.log("STEP 4");
 
     res.status(200).json({
       message: "Mind Map sukses!",
@@ -213,7 +201,6 @@ Format:
 exports.generateQuizFromText = async (req, res) => {
   try {
     const { workspaceId } = req.body;
-    console.log("GENERATE QUIZ workspaceId:", workspaceId);
     if (!workspaceId) {
       return res.status(400).json({
         message: "Workspace ID wajib dikirim.",
@@ -278,17 +265,12 @@ ATURAN:
       text = match[1];
     }
 
-    console.log("========== GEMINI QUIZ ==========");
-    console.log(text);
-    console.log("================================");
-
     let quizQuestions;
 
     try {
       quizQuestions = JSON.parse(text);
     } catch (err) {
       console.error("Raw Gemini Response:");
-      console.log(text);
       throw new Error("AI menghasilkan JSON quiz yang tidak valid.");
     }
 
@@ -345,8 +327,6 @@ ATURAN:
 exports.getQuizByWorkspace = async (req, res) => {
   try {
     const { workspaceId } = req.params;
-
-    console.log("Workspace ID:", workspaceId);
 
     const { data, error } = await supabase
       .from("quisis")

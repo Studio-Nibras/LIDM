@@ -10,9 +10,6 @@ exports.transcribe = async (req, res) => {
       });
     }
 
-    console.log("===== AUDIO RECEIVED =====");
-    console.log(req.file);
-
     const transcript = await transcribeAudio(req.file.path, req.file.mimetype);
 
     fs.unlinkSync(req.file.path);

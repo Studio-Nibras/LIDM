@@ -34,7 +34,6 @@ router.post("/gesture/translate", workspaceController.translateGesture);
 router.post("/generate-mindmap", workspaceController.generateMindMapFromText);
 
 router.get("/ping", (req, res) => {
-  console.log("PING ROUTE");
   res.json({ ok: true });
 });
 

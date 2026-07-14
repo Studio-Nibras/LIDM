@@ -17,6 +17,4 @@ app.post("/upload", upload.single("file"), (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("jalan");
-});
+app.listen(5000, () => {});
