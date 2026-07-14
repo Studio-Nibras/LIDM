@@ -20,10 +20,20 @@ const sttRoutes = require("./src/routes/sttRoutes");
 const battleRoutes = require("./src/routes/battleRoutes");
 
 // middleware global
-app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173", // local development
+  "https://noteflow.vercel.app", // ganti nanti dengan URL Vercel asli
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -47,5 +57,5 @@ app.get("/", (req, res) => {
 
 // server
 app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
