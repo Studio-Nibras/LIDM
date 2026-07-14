@@ -236,14 +236,66 @@ exports.generateQuizFromText = async (req, res) => {
 
     const model = await getAIModel();
 
-    const prompt = `Buatkan 3 soal kuis pilihan ganda JSON dari: "${workspace.plain_text}". Format: [{"id": 1, "question": "...", "options": ["A", "B", "C", "D"], "correctAnswer": "..."}]. Berikan JSON murni tanpa backticks.`;
+    const prompt = `
+Berdasarkan materi berikut:
+
+${workspace.plain_text}
+
+Buat tepat 10 soal pilihan ganda.
+
+Kembalikan JSON murni TANPA markdown dan TANPA backticks.
+
+Format WAJIB seperti berikut:
+
+[
+  {
+    "id": 1,
+    "question": "Apa yang dimaksud ...?",
+    "options": [
+      "Pilihan pertama",
+      "Pilihan kedua",
+      "Pilihan ketiga",
+      "Pilihan keempat"
+    ],
+    "correctAnswer": "B"
+  }
+]
+
+ATURAN:
+- options hanya berisi isi pilihan, jangan tulis "A.", "B.", "C.", atau "D.".
+- correctAnswer HARUS salah satu huruf: "A", "B", "C", atau "D".
+- Jangan beri penjelasan.
+- Keluarkan JSON saja.
+`;
+
     const result = await model.generateContent(prompt);
-    const quizQuestions = JSON.parse(result.response.text().trim());
+
+    let text = result.response.text().trim();
+
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+
+    if (match) {
+      text = match[1];
+    }
+
+    console.log("========== GEMINI QUIZ ==========");
+    console.log(text);
+    console.log("================================");
+
+    let quizQuestions;
+
+    try {
+      quizQuestions = JSON.parse(text);
+    } catch (err) {
+      console.error("Raw Gemini Response:");
+      console.log(text);
+      throw new Error("AI menghasilkan JSON quiz yang tidak valid.");
+    }
 
     const { data: existingQuiz, error: existingError } = await supabase
       .from("quisis")
       .select("id")
-      .eq("materials", workspaceId)
+      .eq("workspace_id", workspaceId)
       .maybeSingle();
 
     if (existingError) throw existingError;
@@ -266,7 +318,7 @@ exports.generateQuizFromText = async (req, res) => {
         .from("quisis")
         .insert([
           {
-            materials: workspaceId,
+            workspace_id: workspaceId,
             title: workspace.Title,
             questions: quizQuestions,
           },
@@ -299,7 +351,7 @@ exports.getQuizByWorkspace = async (req, res) => {
     const { data, error } = await supabase
       .from("quisis")
       .select("*")
-      .eq("materials", workspaceId)
+      .eq("workspace_id", workspaceId)
       .single();
 
     console.log("DATA:", data);

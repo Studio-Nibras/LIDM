@@ -8,13 +8,10 @@ const upload = multer({
 });
 
 app.post("/hello", (req, res) => {
-  console.log("HELLO");
   res.json({ ok: true });
 });
 
 app.post("/upload", upload.single("file"), (req, res) => {
-  console.log(req.file);
-
   res.json({
     success: true,
   });

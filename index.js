@@ -17,6 +17,7 @@ const gestureRoutes = require("./src/routes/gestureRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
 const agendaRoutes = require("./src/routes/agendaRoutes");
 const sttRoutes = require("./src/routes/sttRoutes");
+const battleRoutes = require("./src/routes/battleRoutes");
 
 // middleware global
 app.use(express.json());
@@ -37,6 +38,7 @@ app.use("/api/workspace/gesture", gestureRoutes);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/agenda", agendaRoutes);
 app.use("/api/stt", sttRoutes);
+app.use("/api/battle", authenticateUser, battleRoutes);
 
 // route testing
 app.get("/", (req, res) => {
