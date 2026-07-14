@@ -21,8 +21,8 @@ const battleRoutes = require("./src/routes/battleRoutes");
 
 // middleware global
 const allowedOrigins = [
-  "http://localhost:5173", // local development
-  "https://noteflow.vercel.app", // ganti nanti dengan URL Vercel asli
+  "http://localhost:5173",
+  "https://noteflow-fe.vercel.app/",
 ];
 
 app.use(
