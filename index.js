@@ -22,7 +22,7 @@ const battleRoutes = require("./src/routes/battleRoutes");
 // middleware global
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://noteflow-fe.vercel.app/",
+  "https://noteflow-fe.vercel.app",
 ];
 
 app.use(
